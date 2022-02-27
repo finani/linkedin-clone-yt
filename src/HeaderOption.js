@@ -12,4 +12,4 @@ function HeaderOption({ avatar, Icon, title }) {
   )
 }
 
-export default HeaderOption
+export default HeaderOption;
