@@ -20,9 +20,9 @@ function Feed() {
       <div className='feed__inputContainer'>
         <div className='feed__input'>
             <CreateIcon />
-            <form>
+            <form onSubmit={sendPost}>
               <input type='text'/>
-              <button onClick={sendPost} type='submit'>Send</button>
+              {/* <button onClick={sendPost} type='submit'>Send</button> */}
             </form>
         </div>
         <div className='feed__inputOptions'>
