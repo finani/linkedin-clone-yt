@@ -9,8 +9,12 @@ import CalendarViewDayIcon from '@mui/icons-material/CalendarViewDay';
 import Post from './Post';
 import { db } from "./firebase";
 import { query, collection, orderBy, addDoc, onSnapshot, serverTimestamp } from "firebase/firestore";
+import { useSelector } from 'react-redux';
+import { selectUser } from './features/userSlice';
+import FlipMove from 'react-flip-move';
 
 function Feed() {
+  const user = useSelector(selectUser);
   const [refresh, setRefresh] = useState(false);
   const [input, setInput] = useState('');
   const [posts, setPosts] = useState([]);
@@ -33,10 +37,10 @@ function Feed() {
 
     // https://firebase.google.com/docs/firestore/quickstart#add_data
     addDoc(collection(db, 'posts'), {
-      name: 'Sonny Sangha',
-      description: 'this is a test',
+      name: user.displayName,
+      description: user.email,
       message: input,
-      photoUrl: '',
+      photoUrl: user.photoUrl || '',
       timestamp: serverTimestamp(),
     });
 
@@ -63,15 +67,17 @@ function Feed() {
       </div>
 
       {/* Posts */}
-      {posts.map(({ id, data: { name, description, message, photoUrl } }) => (
-        <Post
-          key={id}
-          name={name}
-          description={description}
-          message={message}
-          photoUrl={photoUrl}
-        />
-      ))}
+      <FlipMove>
+        {posts.map(({ id, data: { name, description, message, photoUrl } }) => (
+          <Post
+            key={id}
+            name={name}
+            description={description}
+            message={message}
+            photoUrl={photoUrl}
+          />
+        ))}
+      </FlipMove>
     </div>
   )
 }
